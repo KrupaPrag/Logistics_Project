@@ -1,0 +1,5 @@
+algorithm,number_bins,unused_bins,max_filled_bins,partial_filled_bins
+first_fit,,,,
+next_fit,,,,
+best_fit,,,,
+worst_fit,,,,
