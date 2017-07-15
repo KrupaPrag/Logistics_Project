@@ -1,0 +1,102 @@
+% Test script for TSP in Dropbox folder
+
+% Given inputs
+
+distanceMatrix = [0 36 32 54 20 40;             % The distance matrix
+                  36 0 22 58 54 67;
+                  32 22 0 36 42 71;
+                  54 58 36 0 50 92;
+                  20 54 42 50 0 45;
+                  40 67 71 92 45 0];
+            
+n               = length(distanceMatrix(1, :));  % The number of cities
+
+[p d t] = tsp(distanceMatrix, n);
+p = [p, p(1, 1)];
+g       = sprintf('%d ', p);
+fprintf('Assumes return to original city \n')
+fprintf('--------------------------\n')
+fprintf('The optimal path is     : %s \n', g)
+fprintf('The optimal distance is : %2.0f \n', d)
+fprintf('Exercution time is      : %f seconds \n', t)
+fprintf('--------------------------\n')
+disp('end of run')
+
+function [path dist time] = tsp(D, n)
+%
+% The function computes the travelling salesman problem using a simulated
+% anealing approach. 
+%
+% INPUTS: 
+%           D    - some given distance matrix (symmetric and 0's on diag)
+%           n    - the number of cities to vist
+%
+% OUTPUTS:
+%           path - the optimal path according to the simulated annealing
+%           dist - the corresponding distance to the optimal path
+%           time - the time to compute one instance of the SA in seconds
+
+T = 10000; % Initial temperature
+L = 20*n;   % Length of the markov chain
+e = 1e-9;   % Tolerance
+
+x  = randperm(n);
+fx = distCalculatorReturn(D, x);
+tic
+
+while T > e
+    for i = 1:L
+        num1 = 1 + floor(rand*n);
+        num2 = 1 + floor(rand*n);
+        while num1 == num2  
+            num1 = 1 + floor(rand*n);
+        end
+        y = x;
+        swap1 = y(num1);
+        y(num1) = y(num2);
+        y(num2) = swap1;
+
+        fy = distCalculatorReturn(D,y);
+        if fy < fx
+            x = y;
+            fx = fy;
+        elseif rand < exp(-(fy - fx)/T)
+            x = y;
+            fx = fy;
+        end
+        
+    end
+    
+    T = 0.9*T;
+end
+path = x;
+dist = fx;
+time = toc;
+end
+
+
+
+function [totaldist] = distCalculatorReturn(distMatrix, proposedPath)
+
+% Helper function. Simply computes a distance of a proposed path
+% 
+% INPUTS: 
+%           distMatrix   - the distance matrix
+%           proposedPath - the sample path to compute
+%
+% OUTPUTS: 
+%           totaldist    - the corresponding distance of the proposed path
+%
+
+dist = 0;
+i    = 1;
+
+
+while i ~= length(proposedPath)
+    dist = dist + distMatrix(proposedPath(i),proposedPath(i+1));
+    i = i+1;
+end
+dist = dist + distMatrix(proposedPath(1), proposedPath(end));      
+totaldist = dist;
+
+end
