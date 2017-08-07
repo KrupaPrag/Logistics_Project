@@ -1,4 +1,4 @@
-bin,x_size,y_size,av_x_space,av_y_space,delivery_time_dispatch,route_dist,bin_penalty,route_cost
-0,9,6,9,6,,,2,
-1,5,3,5,3,,,1,
-2,7,5,7,5,,,0.6,
+bin,x_size,y_size,av_x_space,av_y_space,delivery_time_dispatch,route_dist,bin_penalty,route_cost,distance_per_item
+0,9,6,9,6,,,2,,
+1,5,3,5,3,,,1,,
+2,7,5,7,5,,,0.6,,

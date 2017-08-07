@@ -1,4 +1,4 @@
-bin,size,available_space,delivery_time_dispatch,route_dist,bin_penalty,route_cost
-0,4,4,,,1,
-1,3,3,,,0.8,
-2,9,9,,,2,
+bin,size,available_space,delivery_time_dispatch,route_dist,bin_penalty,route_cost,distance_per_item
+0,4,4,,,1,,
+1,3,3,,,0.8,,
+2,9,9,,,2,,
